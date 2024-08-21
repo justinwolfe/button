@@ -53,8 +53,20 @@ async function main() {
 
     const allPosts = await fetchPosts(BASE_URL);
     const outputFile = TEST_MODE ? 'test_' + OUTPUT_FILE : OUTPUT_FILE;
+    const parsedPosts = allPosts.map((post) => {
+      return {
+        id: post.id,
+        subject: post.subject,
+        publish_date: post.publish_date,
+        creation_date: post.creation_date,
+        absolute_url: post.absolute_url,
+        body: post.body,
+        attachments: post.attachments,
+        slug: post.slug,
+      };
+    });
 
-    await fs.writeFile(outputFile, JSON.stringify(allPosts, null, 2));
+    await fs.writeFile(outputFile, JSON.stringify(parsedPosts, null, 2));
     console.log(
       `Successfully downloaded ${allPosts.length} posts to ${outputFile}`
     );

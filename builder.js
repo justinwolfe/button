@@ -81,7 +81,6 @@ absolute_url: "${newsletter.absolute_url}"
 
 `;
 
-      // Parse the content with marked before compressing
       const parsedContent = marked(newsletter.body);
       const processedContent = compressHtmlWhitespace(parsedContent);
 
@@ -91,15 +90,9 @@ absolute_url: "${newsletter.absolute_url}"
         processedContent
       );
 
-      // Convert processed content to Markdown and reduce empty lines
       let markdown = turndownService.turndown(processedContent);
       markdown = reduceEmptyLines(markdown);
 
-      await writeFileWithSuffix(
-        monthPath,
-        `${baseFilename}.parsed.md`,
-        frontmatter + markdown
-      );
       await writeFileWithSuffix(
         monthPath,
         `${baseFilename}.md`,

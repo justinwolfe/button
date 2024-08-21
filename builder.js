@@ -51,10 +51,16 @@ async function clearDirectory(directory) {
 
 async function processNewsletters() {
   try {
-    const data = await fs.readFile('buttondown_posts.json', 'utf8');
+    const data = await fs.readFile(
+      path.join(__dirname, 'data', 'letters.json'),
+      'utf8'
+    );
+
     const newsletters = JSON.parse(data);
 
-    const lettersPath = path.join(__dirname, 'letters');
+    const dataPath = path.join(__dirname, 'data');
+    const lettersPath = path.join(dataPath, 'letters');
+    await fs.mkdir(dataPath, { recursive: true });
     await fs.mkdir(lettersPath, { recursive: true });
     await clearDirectory(lettersPath);
 

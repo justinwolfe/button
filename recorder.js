@@ -6,7 +6,7 @@ const API_KEY = process.env.BUTTONDOWN_API_KEY;
 const axios = require('axios');
 const BASE_URL =
   'https://api.buttondown.email/v1/emails?status=imported&status=sent';
-const OUTPUT_FILE = 'buttondown_posts.json';
+const OUTPUT_FILE = 'data/letters.json';
 const DELAY_MS = 1000; // 1 second delay
 const TEST_MODE = process.argv.includes('--test'); // Check if --test flag is present
 

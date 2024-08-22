@@ -59,6 +59,7 @@ async function main() {
         subject: post.subject,
         publish_date: post.publish_date,
         creation_date: post.creation_date,
+        modification_date: post.modification_date,
         absolute_url: post.absolute_url,
         body: post.body,
         attachments: post.attachments,

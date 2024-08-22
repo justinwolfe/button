@@ -51,14 +51,11 @@ async function clearDirectory(directory) {
 
 async function processNewsletters() {
   try {
-    const data = await fs.readFile(
-      path.join(__dirname, 'data', 'letters.json'),
-      'utf8'
-    );
+    const data = await fs.readFile(path.join('data', 'seed.json'), 'utf8');
 
     const newsletters = JSON.parse(data);
 
-    const dataPath = path.join(__dirname, 'data');
+    const dataPath = path.join(process.cwd(), 'data');
     const lettersPath = path.join(dataPath, 'letters');
     await fs.mkdir(dataPath, { recursive: true });
     await fs.mkdir(lettersPath, { recursive: true });
@@ -89,13 +86,6 @@ absolute_url: "${newsletter.absolute_url}"
 
       const parsedContent = marked(newsletter.body);
       const processedContent = compressHtmlWhitespace(parsedContent);
-
-      await writeFileWithSuffix(
-        monthPath,
-        `${baseFilename}.html`,
-        processedContent
-      );
-
       let markdown = turndownService.turndown(processedContent);
       markdown = reduceEmptyLines(markdown);
 

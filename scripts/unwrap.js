@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
+require('dotenv').config();
 
 async function processEntries(inputFile) {
   try {

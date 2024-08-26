@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
 // Read the seed JSON file
 const seedPath = path.join(__dirname, '..', 'data', 'seed.json');

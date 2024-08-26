@@ -3,6 +3,7 @@ const csv = require('csv-parse/sync');
 const path = require('path');
 const moment = require('moment');
 const { convertToMarkdown } = require('./utils.js');
+require('dotenv').config();
 
 // Read the JSON file
 const seedPath = path.join(__dirname, '..', 'data', 'seed.json');

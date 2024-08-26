@@ -2,6 +2,7 @@ const fs = require('fs');
 const csv = require('csv-parse/sync');
 const path = require('path');
 const { convertToMarkdown } = require('./utils.js');
+require('dotenv').config();
 
 const csvPath = path.join(__dirname, '..', 'data', 'tinyletter_export.csv');
 if (!fs.existsSync(csvPath)) {

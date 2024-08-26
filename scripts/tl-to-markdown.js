@@ -27,7 +27,7 @@ const outputPath = path.join(
   __dirname,
   '..',
   'data',
-  'tinletter_export_md.json'
+  'tinyletter_export_md.json'
 );
 
 fs.writeFileSync(outputPath, JSON.stringify(outputData, null, 2));

@@ -18,6 +18,7 @@ const records = csv.parse(csvData, {
 
 const outputData = records.map((email) => ({
   subject: email.Subject,
+  contentOriginal: email.Content,
   content: convertToMarkdown(email.Content),
   createdAt: email.Created_At,
 }));

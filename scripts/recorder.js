@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 const fs = require('fs').promises;
+const { convertToMarkdown } = require('./utils.js');
+const path = require('path');
 
 const API_KEY = process.env.BUTTONDOWN_API_KEY;
 const axios = require('axios');
@@ -62,12 +64,16 @@ async function main() {
         modification_date: post.modification_date,
         absolute_url: post.absolute_url,
         body: post.body,
+        bodyMd: convertToMarkdown(post.body),
         attachments: post.attachments,
         slug: post.slug,
       };
     });
 
-    await fs.writeFile(outputFile, JSON.stringify(parsedPosts, null, 2));
+    await fs.writeFile(
+      path.join(__dirname, '..', outputFile),
+      JSON.stringify(parsedPosts, null, 2)
+    );
     console.log(
       `Successfully downloaded ${allPosts.length} posts to ${outputFile}`
     );

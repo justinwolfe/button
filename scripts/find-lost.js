@@ -1,19 +1,26 @@
 const fs = require('fs');
 const csv = require('csv-parse/sync');
 const path = require('path');
-
-console.log('Current working directory:', process.cwd());
+const moment = require('moment');
+const { convertToMarkdown } = require('./utils.js');
 
 // Read the JSON file
-const seedData = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '..', 'data', 'seed.json'), 'utf-8')
-);
+const seedPath = path.join(__dirname, '..', 'data', 'seed.json');
+if (!fs.existsSync(seedPath)) {
+  console.error(`Error: File not found: ${seedPath}`);
+  process.exit(1);
+}
+
+const seedData = JSON.parse(fs.readFileSync(seedPath, 'utf-8'));
 
 // Read the CSV file
-const csvData = fs.readFileSync(
-  path.join(__dirname, '..', 'data', 'tinyletter_export.csv'),
-  'utf-8'
-);
+const csvPath = path.join(__dirname, '..', 'data', 'tinyletter_export.csv');
+if (!fs.existsSync(csvPath)) {
+  console.error(`Error: File not found: ${csvPath}`);
+  process.exit(1);
+}
+
+const csvData = fs.readFileSync(csvPath, 'utf-8');
 
 const records = csv.parse(csvData, {
   columns: true,
@@ -24,21 +31,27 @@ const records = csv.parse(csvData, {
 const seedSubjects = new Set(seedData.map((item) => item.subject));
 
 // Filter the CSV records to find missing emails
+const cutoffDate = moment('2016-01-03');
 const missingEmails = records.filter(
-  (record) => !seedSubjects.has(record.Subject)
+  (record) =>
+    !seedSubjects.has(record.Subject) &&
+    moment(record.Created_At).isAfter(cutoffDate)
 );
 
 // Map the missing emails to the desired format
 const missingData = missingEmails.map((email) => ({
   subject: email.Subject,
-  content: email.Content,
+  content: convertToMarkdown(email.Content),
   createdAt: email.Created_At,
 }));
 
 // Write the missing emails to a JSON file
-fs.writeFileSync(
-  path.join(__dirname, '..', 'data', 'missing.json'),
-  JSON.stringify(missingData, null, 2)
-);
+const outputPath = path.join(__dirname, '..', 'data', 'missing.json');
+fs.writeFileSync(outputPath, JSON.stringify(missingData, null, 2));
 
-console.log('Missing emails have been saved to missing.json');
+console.log(
+  `Missing emails after ${cutoffDate.format(
+    'MMMM D, YYYY'
+  )} have been saved to missing.json`
+);
+console.log(`Total missing emails found: ${missingData.length}`);

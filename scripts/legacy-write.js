@@ -17,7 +17,6 @@ const dataFolder = 'data';
 let outputForButtondown = [];
 
 async function processFile(file) {
-  console.log(process.env);
   if (path.extname(file) === '.md') {
     const filePath = path.join(dataFolder, file);
     const [month, day, year] = path.basename(file, '.md').split('-');
@@ -41,7 +40,7 @@ async function processFile(file) {
         newsletterData,
         {
           headers: {
-            Authorization: 'PUT IN THE KEY',
+            Authorization: 'Token ' + process.env.BUTTONDOWN_API_KEY,
             'Content-Type': 'application/json',
           },
         }

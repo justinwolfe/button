@@ -1,7 +1,6 @@
 const fs = require('fs');
 const csv = require('csv-parse/sync');
 const path = require('path');
-const moment = require('moment');
 const { convertToMarkdown } = require('./utils.js');
 
 const csvPath = path.join(__dirname, '..', 'data', 'tinyletter_export.csv');

@@ -3,6 +3,7 @@ const { marked } = require('marked');
 const TurndownService = require('turndown');
 const fs = require('fs').promises;
 const path = require('path');
+require('dotenv').config();
 
 function reduceEmptyLines(content) {
   return content.replace(/(\s*\n){3,}/g, '\n\n');

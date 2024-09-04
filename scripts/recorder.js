@@ -70,6 +70,11 @@ async function main() {
       };
     });
 
+    // Sort the posts by publish_date in ascending order
+    parsedPosts.sort(
+      (a, b) => new Date(a.publish_date) - new Date(b.publish_date)
+    );
+
     await fs.writeFile(
       path.join(__dirname, '..', outputFile),
       JSON.stringify(parsedPosts, null, 2)
